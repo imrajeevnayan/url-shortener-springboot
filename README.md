@@ -135,32 +135,43 @@ url-shortener/
 ## Quick Start
 
 ### Prerequisites
-- Java 17+ (Java 21 recommended)
-- Node.js 20+
-- Maven 3.9+ (Maven Wrapper included)
+- **Java 21+** (Highly recommended for the latest features and security)
+- **Node.js 20+**
+- **Maven 3.9+** (Optional, Maven Wrapper is included)
 
-### Option 1: Run Pre-built JAR
+### Running the Application
 
-1. **Start the backend:**
+Follow these steps to get the full-stack application running on your local machine:
+
+#### 1. Start the Backend (Spring Boot)
+Open a terminal in the root directory and run:
 ```bash
-java -jar backend/target/url-shortener-1.0.0.jar
+cd backend
+./mvnw spring-boot:run
 ```
-The backend will start on `http://localhost:8080`
+*The backend will start on **http://localhost:8080***.
 
-2. **Start the frontend:**
+#### 2. Start the Frontend (React)
+Open a **new** terminal in the root directory and run:
 ```bash
 cd frontent
 npm install
 npm run dev
 ```
-The frontend will start on `http://localhost:3000`
+*The frontend will start on **http://localhost:3000***.
 
-3. **Access the application:**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:8080/api
-   - H2 Console: http://localhost:8080/h2-console
+### Access Links
+- **Frontend UI**: [http://localhost:3000](http://localhost:3000)
+- **Backend API**: [http://localhost:8080/api](http://localhost:8080/api)
+- **H2 Database Console**: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
+  - JDBC URL: `jdbc:h2:mem:urlshortenerdb`
+  - User: `sa`
+  - Password: (empty)
 
-### Option 2: Build from Source
+---
+
+### Alternative: Building from Source
+If you prefer to build a production JAR:
 
 **Backend:**
 ```bash
