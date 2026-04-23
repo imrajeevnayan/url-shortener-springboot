@@ -1,5 +1,7 @@
 # URL Shortener - Full Stack Application
 
+![Application Dashboard](./dashboard.png)
+
 A professional, feature-rich URL shortening service built with **Spring Boot** (backend) and **React + TypeScript** (frontend). This is an intermediate-level project demonstrating modern full-stack development practices.
 
 ## Features
