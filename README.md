@@ -58,6 +58,7 @@ A professional, feature-rich URL shortening service built with **Spring Boot** (
 ```
 url-shortener/
 ├── backend/                          # Spring Boot Application
+│   ├── mvnw                          # Maven wrapper
 │   ├── pom.xml                       # Maven configuration
 │   └── src/main/java/com/urlshortener/
 │       ├── UrlShortenerApplication.java    # Main entry point
@@ -85,7 +86,7 @@ url-shortener/
 │           ├── WebConfig.java
 │           └── GlobalExceptionHandler.java
 │
-├── frontend/                         # React Application
+├── frontent/                         # React Application
 │   ├── src/
 │   │   ├── services/api.ts           # API client
 │   │   ├── types/index.ts            # TypeScript types
@@ -134,21 +135,21 @@ url-shortener/
 ## Quick Start
 
 ### Prerequisites
-- Java 17+
+- Java 17+ (Java 21 recommended)
 - Node.js 20+
-- Maven 3.9+
+- Maven 3.9+ (Maven Wrapper included)
 
 ### Option 1: Run Pre-built JAR
 
 1. **Start the backend:**
 ```bash
-java -jar url-shortener-backend.jar
+java -jar backend/target/url-shortener-1.0.0.jar
 ```
 The backend will start on `http://localhost:8080`
 
 2. **Start the frontend:**
 ```bash
-cd frontend
+cd frontent
 npm install
 npm run dev
 ```
@@ -164,13 +165,13 @@ The frontend will start on `http://localhost:3000`
 **Backend:**
 ```bash
 cd backend
-mvn clean package -DskipTests
+./mvnw clean package -DskipTests
 java -jar target/url-shortener-1.0.0.jar
 ```
 
 **Frontend:**
 ```bash
-cd frontend
+cd frontent
 npm install
 npm run build
 npm run dev
