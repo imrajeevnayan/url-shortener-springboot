@@ -1,0 +1,3 @@
+# Ignore the frontend directory for GitHub language statistics
+frontent/** linguist-detectable=false
+frontent/** linguist-vendored=true
