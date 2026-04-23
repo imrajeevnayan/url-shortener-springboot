@@ -160,6 +160,13 @@ npm run dev
 ```
 *The frontend will start on **http://localhost:3000***.
 
+### Running with Docker (Recommended)
+If you have Docker and Docker Compose installed, you can run the entire stack with a single command:
+```bash
+docker-compose up --build
+```
+*The application will be available at **http://localhost:80***.
+
 ### Access Links
 - **Frontend UI**: [http://localhost:3000](http://localhost:3000)
 - **Backend API**: [http://localhost:8080/api](http://localhost:8080/api)
