@@ -27,6 +27,19 @@ public class RedirectController {
      * Redirect short URL to original URL
      * GET /{shortCode}
      */
+    @GetMapping("/favicon.ico")
+    public ResponseEntity<Void> favicon() {
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<Map<String, String>> root() {
+        return ResponseEntity.ok(Map.of(
+                "name", "URL Shortener API",
+                "status", "running"
+        ));
+    }
+
     @GetMapping("/{shortCode}")
     public ResponseEntity<Void> redirectToOriginalUrl(
             @PathVariable String shortCode,
