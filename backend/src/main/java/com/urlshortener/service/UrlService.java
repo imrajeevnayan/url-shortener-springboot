@@ -19,9 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -365,11 +365,16 @@ public class UrlService {
     }
 
     private List<AnalyticsDto.DailyClick> getClicksOverTime(Long urlId) {
-        List<Object[]> results = clickEventRepository.getDailyClicks(urlId);
-        return results.stream()
-                .map(r -> AnalyticsDto.DailyClick.builder()
-                        .date((LocalDate) r[0])
-                        .count((Long) r[1])
+        return clickEventRepository.findByUrlId(urlId).stream()
+                .collect(Collectors.groupingBy(
+                        event -> event.getClickedAt().toLocalDate(),
+                        Collectors.counting()
+                ))
+                .entrySet().stream()
+                .sorted(Comparator.comparing(entry -> entry.getKey()))
+                .map(entry -> AnalyticsDto.DailyClick.builder()
+                        .date(entry.getKey())
+                        .count(entry.getValue())
                         .build())
                 .collect(Collectors.toList());
     }

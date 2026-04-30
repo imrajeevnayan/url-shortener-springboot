@@ -19,7 +19,7 @@ This repository is useful for developers searching for a **Spring Boot URL short
 
 ## Demo Short Links
 
-The backend includes seed data for local testing. These demo links are loaded from `backend/src/main/resources/data.sql` when the default in-memory H2 database starts.
+The backend includes seed data for local testing. These demo links are loaded from `backend/src/main/resources/data.sql` into the local file-based H2 database. User-created short links persist across backend restarts.
 
 | Short Link | Redirects To |
 |-----------|--------------|
@@ -235,11 +235,12 @@ Edit `backend/src/main/resources/application.properties`:
 
 ```properties
 server.port=8080
-spring.datasource.url=jdbc:h2:mem:urlshortenerdb
+spring.datasource.url=jdbc:h2:file:./data/urlshortenerdb
 spring.datasource.username=sa
 spring.datasource.password=
-spring.jpa.hibernate.ddl-auto=create
+spring.jpa.hibernate.ddl-auto=update
 spring.jpa.open-in-view=false
+spring.sql.init.mode=always
 app.url-shortener.base-url=http://localhost:8080
 app.url-shortener.default-expiry-days=30
 ```
@@ -271,7 +272,7 @@ http://localhost:8080/h2-console
 Default profile credentials:
 
 ```text
-JDBC URL: jdbc:h2:mem:urlshortenerdb
+JDBC URL: jdbc:h2:file:./data/urlshortenerdb
 Username: sa
 Password:
 ```
