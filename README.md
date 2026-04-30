@@ -1,276 +1,329 @@
-# URL Shortener - Full Stack Application
+# URL Shortener Spring Boot React - Full Stack URL Shortening App
 
-![Application Dashboard](./dashboard.png)
+![URL Shortener dashboard built with Spring Boot and React](./dashboard.png)
 
-A professional, feature-rich URL shortening service built with **Spring Boot** (backend) and **React + TypeScript** (frontend). This is an intermediate-level project demonstrating modern full-stack development practices.
+A full stack URL shortener application built with **Spring Boot 3**, **React**, **TypeScript**, **Vite**, **Tailwind CSS**, **Spring Data JPA**, and **H2 Database**. This project demonstrates how to build a modern Bitly-style short link platform with custom aliases, QR codes, click analytics, URL management, expiration dates, and a responsive dashboard.
 
-## Features
+This repository is useful for developers searching for a **Spring Boot URL shortener project**, **React URL shortener app**, **full stack Java project**, **URL shortener with analytics**, or **Java React portfolio project**.
 
-### Core Features
-- **URL Shortening** - Convert long URLs to short, shareable links
-- **Custom Aliases** - Create memorable custom short URLs
-- **QR Code Generation** - Auto-generated QR codes for every shortened URL
-- **Click Analytics** - Detailed analytics with charts and visualizations
-- **URL Management** - Full CRUD operations for your shortened URLs
-- **Search & Filter** - Find URLs quickly with keyword search
-- **Password Protection** - Secure links with password protection
-- **Expiration Dates** - Set automatic expiration for temporary links
-- **Responsive Design** - Works on desktop, tablet, and mobile
+## Highlights
 
-### Intermediate-Level Features
-- **Spring Boot 3.2** with Java 17
-- **Spring Data JPA** with H2 database
-- **RESTful API** with proper HTTP status codes
-- **Input Validation** with Bean Validation
-- **Error Handling** with global exception handler
-- **Scheduled Tasks** for cleaning up expired URLs
-- **User Agent Parsing** for browser/OS/device detection
-- **Base62 Encoding** for efficient short code generation
-- **CORS Configuration** for cross-origin requests
-- **TypeScript** frontend with strict typing
-- **Recharts** for data visualization
-- **Tailwind CSS** for modern styling
+- Shorten long URLs into clean shareable links
+- Create custom aliases like `/my-link`
+- Generate QR codes for every short URL
+- Track clicks, browsers, operating systems, devices, referrers, and countries
+- Search, filter, deactivate, and permanently delete shortened URLs
+- Add optional password protection and expiration dates
+- Use a Spring Boot REST API with a React TypeScript frontend
+- Run locally with Maven and npm, or run the full stack with Docker Compose
+
+## Demo Short Links
+
+The backend includes seed data for local testing. These demo links are loaded from `backend/src/main/resources/data.sql` when the default in-memory H2 database starts.
+
+| Short Link | Redirects To |
+|-----------|--------------|
+| `http://localhost:8080/google` | `https://www.google.com` |
+| `http://localhost:8080/github` | `https://www.github.com` |
+| `http://localhost:8080/stackoverflow` | `https://www.stackoverflow.com` |
+| `http://localhost:8080/youtube` | `https://www.youtube.com` |
+| `http://localhost:8080/linkedin` | `https://www.linkedin.com` |
+| `http://localhost:8080/medium` | `https://www.medium.com` |
+| `http://localhost:8080/twitter` | `https://www.twitter.com` |
+| `http://localhost:8080/reddit` | `https://www.reddit.com` |
+| `http://localhost:8080/wikipedia` | `https://www.wikipedia.org` |
+| `http://localhost:8080/amazon` | `https://www.amazon.com` |
 
 ## Tech Stack
 
-### Backend (Spring Boot)
+### Backend
+
 | Technology | Purpose |
 |-----------|---------|
-| Spring Boot 3.2 | Application framework |
-| Spring Data JPA | Database access |
-| Spring Validation | Input validation |
-| H2 Database | In-memory database |
+| Spring Boot 3.2 | Java backend framework |
+| Java 17+ | Backend runtime target |
+| Spring Web | REST API and redirects |
+| Spring Data JPA | Database persistence |
+| H2 Database | Local development database |
+| Bean Validation | Request validation |
 | Lombok | Boilerplate reduction |
 | ZXing | QR code generation |
-| Maven | Build tool |
+| Maven Wrapper | Repeatable builds |
 
-### Frontend (React)
+### Frontend
+
 | Technology | Purpose |
 |-----------|---------|
 | React 19 | UI framework |
-| TypeScript | Type safety |
-| Vite | Build tool |
+| TypeScript | Type-safe frontend code |
+| Vite | Development server and build tool |
 | Tailwind CSS | Styling |
 | shadcn/ui | UI components |
-| Recharts | Charts & graphs |
+| Recharts | Analytics charts |
 | Lucide React | Icons |
+
+## Features
+
+### URL Shortening
+
+- Create short URLs from long URLs
+- Use generated short codes or custom aliases
+- Copy short links to the clipboard
+- Open short links in a new browser tab
+- Store title and description metadata
+
+### Analytics Dashboard
+
+- View total URLs, active URLs, and total clicks
+- Inspect per-link analytics
+- Chart clicks over time
+- Track browser, operating system, device, referrer, and country stats
+- Store click events through the backend redirect flow
+
+### Link Management
+
+- List recently created URLs
+- Search URLs by keyword
+- Deactivate URLs without deleting analytics
+- Permanently delete URLs and related click events
+- Automatically clean up expired URLs with a scheduled task
+
+### Backend Improvements
+
+- Root API status endpoint: `GET /`
+- Favicon-safe endpoint: `GET /favicon.ico`
+- Proper `404` handling for missing static resources
+- `spring.jpa.open-in-view=false` for cleaner persistence boundaries
+- H2 dialect warning removed by letting Hibernate auto-detect the dialect
 
 ## Project Structure
 
-```
-url-shortener/
-├── backend/                          # Spring Boot Application
-│   ├── mvnw                          # Maven wrapper
-│   ├── pom.xml                       # Maven configuration
-│   └── src/main/java/com/urlshortener/
-│       ├── UrlShortenerApplication.java    # Main entry point
-│       ├── entity/                   # JPA Entities
-│       │   ├── Url.java              # URL entity
-│       │   └── ClickEvent.java       # Analytics entity
-│       ├── repository/               # Spring Data Repositories
-│       │   ├── UrlRepository.java
-│       │   └── ClickEventRepository.java
-│       ├── service/                  # Business Logic
-│       │   ├── UrlService.java       # Main service
-│       │   ├── Base62Encoder.java    # Encoding utility
-│       │   ├── QrCodeService.java    # QR generation
-│       │   └── UserAgentParser.java  # UA parsing
-│       ├── controller/               # REST Controllers
-│       │   ├── UrlController.java    # URL CRUD API
-│       │   ├── RedirectController.java  # Redirection
-│       │   └── DashboardController.java # Stats API
-│       ├── dto/                      # Data Transfer Objects
-│       │   ├── UrlRequest.java
-│       │   ├── UrlResponse.java
-│       │   ├── AnalyticsDto.java
-│       │   └── ApiResponse.java
-│       └── config/                   # Configuration
-│           ├── WebConfig.java
-│           └── GlobalExceptionHandler.java
-│
-├── frontent/                         # React Application
-│   ├── src/
-│   │   ├── services/api.ts           # API client
-│   │   ├── types/index.ts            # TypeScript types
-│   │   ├── components/               # React components
-│   │   │   ├── Navbar.tsx
-│   │   │   ├── ShortenForm.tsx
-│   │   │   ├── UrlCard.tsx
-│   │   │   ├── UrlList.tsx
-│   │   │   ├── DashboardStats.tsx
-│   │   │   ├── AnalyticsPanel.tsx
-│   │   │   └── BackendStatus.tsx
-│   │   └── pages/
-│   │       └── Home.tsx
-│   ├── package.json
-│   └── vite.config.ts
-│
-└── README.md
+```text
+url-shortener-springboot/
+|-- backend/
+|   |-- mvnw
+|   |-- mvnw.cmd
+|   |-- pom.xml
+|   |-- src/main/java/com/urlshortener/
+|   |   |-- UrlShortenerApplication.java
+|   |   |-- config/
+|   |   |-- controller/
+|   |   |-- dto/
+|   |   |-- entity/
+|   |   |-- repository/
+|   |   `-- service/
+|   `-- src/main/resources/
+|       |-- application.properties
+|       |-- application-dev.properties
+|       `-- data.sql
+|-- frontent/
+|   |-- package.json
+|   |-- vite.config.ts
+|   `-- src/
+|       |-- components/
+|       |-- hooks/
+|       |-- lib/
+|       |-- pages/
+|       |-- services/
+|       `-- types/
+|-- docker-compose.yml
+|-- dashboard.png
+`-- README.md
 ```
 
-## API Endpoints
-
-### URL Management
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/urls` | Create short URL |
-| GET | `/api/urls` | List all URLs (paginated) |
-| GET | `/api/urls/recent` | Get recently created URLs |
-| GET | `/api/urls/{shortCode}` | Get URL by short code |
-| GET | `/api/urls/search?keyword=` | Search URLs |
-| PUT | `/api/urls/{id}` | Update URL |
-| DELETE | `/api/urls/{id}` | Deactivate URL |
-| DELETE | `/api/urls/{id}/permanent` | Delete permanently |
-| GET | `/api/urls/{id}/analytics` | Get URL analytics |
-| GET | `/api/urls/check/{shortCode}` | Check availability |
-
-### Redirection
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/{shortCode}` | Redirect to original URL |
-
-### Dashboard
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/dashboard/stats` | Get dashboard statistics |
+> Note: The frontend folder is currently named `frontent` in the repository.
 
 ## Quick Start
 
 ### Prerequisites
-- **Java 21+** (Highly recommended for the latest features and security)
-- **Node.js 20+**
-- **Maven 3.9+** (Optional, Maven Wrapper is included)
 
-### Running the Application
+- Java 17 or newer
+- Node.js 20 or newer
+- npm
+- Docker Desktop, optional
 
-Follow these steps to get the full-stack application running on your local machine:
+### 1. Clone the Repository
 
-#### 1. Start the Backend (Spring Boot)
-Open a terminal in the root directory and run:
+```bash
+git clone https://github.com/imrajeevnayan/url-shortener-springboot.git
+cd url-shortener-springboot
+```
+
+### 2. Start the Backend
+
 ```bash
 cd backend
 ./mvnw spring-boot:run
 ```
-*The backend will start on **http://localhost:8080***.
 
-#### 2. Start the Frontend (React)
-Open a **new** terminal in the root directory and run:
+On Windows PowerShell:
+
+```powershell
+cd backend
+.\mvnw.cmd spring-boot:run
+```
+
+The backend runs at:
+
+- API status: `http://localhost:8080/`
+- REST API: `http://localhost:8080/api`
+- H2 console: `http://localhost:8080/h2-console`
+
+### 3. Start the Frontend
+
+Open a second terminal:
+
 ```bash
 cd frontent
 npm install
 npm run dev
 ```
-*The frontend will start on **http://localhost:3000***.
 
-### Running with Docker (Recommended)
-If you have Docker and Docker Compose installed, you can run the entire stack with a single command:
+The frontend runs at:
+
+- `http://localhost:3000`
+
+## Run with Docker Compose
+
+If Docker is installed, run the full stack with:
+
 ```bash
 docker-compose up --build
 ```
-*The application will be available at **http://localhost:80***.
 
-### Access Links
-- **Frontend UI**: [http://localhost:3000](http://localhost:3000)
-- **Backend API**: [http://localhost:8080/api](http://localhost:8080/api)
-- **H2 Database Console**: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
-  - JDBC URL: `jdbc:h2:mem:urlshortenerdb`
-  - User: `sa`
-  - Password: (empty)
+The application is served at:
 
----
+- `http://localhost:80`
 
-### Alternative: Building from Source
-If you prefer to build a production JAR:
+## API Endpoints
 
-**Backend:**
-```bash
-cd backend
-./mvnw clean package -DskipTests
-java -jar target/url-shortener-1.0.0.jar
-```
+### URL Management
 
-**Frontend:**
-```bash
-cd frontent
-npm install
-npm run build
-npm run dev
-```
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/urls` | Create a short URL |
+| `GET` | `/api/urls` | List active URLs with pagination |
+| `GET` | `/api/urls/recent` | Get recently created URLs |
+| `GET` | `/api/urls/{shortCode}` | Get URL details by short code |
+| `GET` | `/api/urls/search?keyword=` | Search URLs |
+| `PUT` | `/api/urls/{id}` | Update a URL |
+| `DELETE` | `/api/urls/{id}` | Deactivate a URL |
+| `DELETE` | `/api/urls/{id}/permanent` | Permanently delete a URL |
+| `GET` | `/api/urls/{id}/analytics` | Get URL analytics |
+| `GET` | `/api/urls/check/{shortCode}` | Check short code availability |
+
+### Redirects and Status
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/` | Backend status response |
+| `GET` | `/{shortCode}` | Redirect short URL to original URL |
+| `GET` | `/favicon.ico` | Empty favicon response for browser requests |
+| `GET` | `/api/redirect/{shortCode}/info` | Get redirect info without redirecting |
+
+### Dashboard
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/dashboard/stats` | Get dashboard totals and recent URLs |
 
 ## Configuration
 
-### Backend
+### Backend Configuration
+
 Edit `backend/src/main/resources/application.properties`:
 
 ```properties
-# Server port
 server.port=8080
-
-# Database (H2 in-memory)
 spring.datasource.url=jdbc:h2:mem:urlshortenerdb
-
-# URL Shortener settings
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=create
+spring.jpa.open-in-view=false
 app.url-shortener.base-url=http://localhost:8080
 app.url-shortener.default-expiry-days=30
 ```
 
-### Frontend
-Set environment variable for API URL:
+For persistent local development, run with the `dev` profile:
 
 ```bash
-# Development
-VITE_API_URL=http://localhost:8080/api
-
-# Or use localStorage in browser
-# Click "Setup" in the navbar to configure
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 ```
+
+### Frontend Configuration
+
+The frontend API base URL can be set with `VITE_API_URL`:
+
+```bash
+VITE_API_URL=http://localhost:8080/api npm run dev
+```
+
+If no environment variable is set, the app falls back to `/api` or the value stored in browser local storage.
 
 ## H2 Database Console
 
-Access the H2 console at `http://localhost:8080/h2-console` with:
-- JDBC URL: `jdbc:h2:mem:urlshortenerdb`
-- Username: `sa`
-- Password: (empty)
+Open:
 
-## Features in Detail
+```text
+http://localhost:8080/h2-console
+```
 
-### URL Shortening
-- Paste any long URL and get a short 7-character code
-- Optional: Set a custom alias like `my-link`
-- Optional: Add title and description for organization
-- Optional: Set expiration date
-- Optional: Password protection
+Default profile credentials:
 
-### QR Codes
-- Every shortened URL gets an auto-generated QR code
-- Click the QR icon on any URL card to view
-- Download QR codes as PNG images
-- Use for print materials, business cards, etc.
+```text
+JDBC URL: jdbc:h2:mem:urlshortenerdb
+Username: sa
+Password:
+```
 
-### Analytics
-- Click the chart icon to view detailed analytics
-- Charts: Daily clicks over time
-- Statistics: Browsers, Operating Systems, Devices, Referrers, Countries
-- Total clicks and unique visitor counts
+Development profile credentials:
 
-### URL Management
-- Copy short URLs with one click
-- Open short URLs in new tab
-- View analytics for any URL
-- Delete URLs you no longer need
-- Search through all your URLs
+```text
+JDBC URL: jdbc:h2:file:./data/urlshortener-dev
+Username: sa
+Password:
+```
+
+## Build and Verify
+
+### Backend
+
+```bash
+cd backend
+./mvnw test
+./mvnw clean package
+```
+
+### Frontend
+
+```bash
+cd frontent
+npm install
+npm run build
+```
+
+## SEO Keywords
+
+Spring Boot URL shortener, React URL shortener, Java URL shortener project, full stack URL shortener, URL shortener with analytics, custom short links, QR code URL shortener, Spring Boot React project, TypeScript URL shortener, H2 database Spring Boot project.
 
 ## Deployment
 
-The frontend is built as a static site and can be deployed to any static hosting service (Netlify, Vercel, GitHub Pages, etc.).
+The React frontend builds into static files and can be deployed to Netlify, Vercel, GitHub Pages, or any static hosting provider.
 
-The backend is packaged as an executable JAR and can be deployed to:
-- Any server with Java 17+
-- Heroku
+The Spring Boot backend can be deployed as:
+
+- Executable JAR on a Java server
+- Docker container
 - AWS Elastic Beanstalk
 - Google Cloud Run
-- Docker containers
+- Render, Railway, Fly.io, or similar platforms
+
+For production, replace H2 with PostgreSQL or MySQL, configure a public `app.url-shortener.base-url`, disable demo seed data, and use environment variables for secrets.
+
+## Repository
+
+GitHub: [imrajeevnayan/url-shortener-springboot](https://github.com/imrajeevnayan/url-shortener-springboot)
 
 ## License
 
-MIT License - feel free to use this project for learning or commercial purposes.
+MIT License. You can use this URL shortener project for learning, portfolio work, interviews, or commercial experiments.
